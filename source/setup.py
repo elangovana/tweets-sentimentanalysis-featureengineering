@@ -8,5 +8,5 @@ setup(
     license='',
     author='aparnaelangovan',
     author_email='',
-    description=''
+    description='', requires=['pandas', 'nltk', 'liac-arff']
 )

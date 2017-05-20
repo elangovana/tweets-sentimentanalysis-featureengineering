@@ -13,6 +13,7 @@ class TextAnalyser:
     """
     def  __init__(self):
         self.stopwords = nltk.corpus.stopwords.words('english')
+        self.tokenizer = WordPunctTokenizer()
 
 
     def get_words(self, text):
@@ -29,8 +30,8 @@ class TextAnalyser:
         stopwords = self.stopwords
         stopwords.extend(string.punctuation)
         stopwords.append('')
-        tokenizer = WordPunctTokenizer()
-        tokens = [token.lower().strip(string.punctuation) for token in tokenizer.tokenize(text) \
+
+        tokens = [token.lower().strip(string.punctuation) for token in self.tokenizer.tokenize(text) \
                   if token.lower().strip(string.punctuation) not in stopwords]
         return tokens
 

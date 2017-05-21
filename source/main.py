@@ -74,7 +74,7 @@ def GetTweetDataFrame(samplesize, label_file, delimiter, tweet_file, logger):
 
 
     #stem word with chracters ignore words with ascii
-    vget_non_stop_words = np.vectorize(stemwords1, otypes=[list])
+    vget_non_stop_words = np.vectorize(stemwords1, otypes=[set])
 
     df_tweet["words"]=vget_non_stop_words(df_tweet["tweet"])
     print (df_label.columns)
@@ -93,9 +93,12 @@ def stemwords1(sentence):
     words_with_letters_only= [w for w in words if re.match('^[a-zA-Z]+$',w) ]
 
     if len(words_with_letters_only) ==0:
-        return []
+        return set()
     tokens= text_analyser.Stem_tokens(words_with_letters_only)
-    return  tokens
+    result = set()
+    tmp= [result.add(x) for x in tokens]
+    print result
+    return  result
 
 
 

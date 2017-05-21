@@ -1,3 +1,4 @@
+import codecs
 import logging
 import os
 from operator import contains
@@ -22,20 +23,21 @@ class BayesianFeature:
         self.logger.info("--End of summary--")
 
     def get_features(self, df_tweet, df_label):
-        self.features = ["amazing", "antman", "awesome", "best", "birthday", "cream", "day", "death", "drone",
-                         "excited", "fake",
-                         "fuck", "fucking", "good", "great", "gucci", "happy", "hate", "ice", "leftists", "liberals",
-                         "love", "national",
-                         "nazi", "night", "obama", "people", "racist", "see", "shit", "stupid", "supremacists",
-                         "tomorrow", "trump"]
+        text_analyser=TextAnalyser()
+        self.features =text_analyser.get_most_common_words(reduce(set.union,df_tweet["words"]), 1000, 1)
+        #TODO hack remove words used in column names
+        print (self.features)
 
-        print (df_tweet)
+        self.features = filter(lambda x: x not in ['tweet','id','words','sentiment'], self.features)
+        print (self.features)
 
     def generate_arff(self, df_tweet, df_label, output_file_name):
 
         #get word presence/against
         self.logger.info("Get word presence / absence against the tweet")
         vcontains = np.vectorize(contains)
+
+        print(df_tweet.columns.values)
         for w in self.features:
             df_tweet[w] = vcontains(df_tweet["words"], w)
 
@@ -43,6 +45,7 @@ class BayesianFeature:
         self.logger.info("Start formatting for arff")
         df_arff = pd.merge(df_tweet, df_label, left_index=True, right_index=True)
         df_arff["id"] = list(df_arff.index)
+        print(df_arff.columns.values)
 
         attributes = []#[("id", 'NUMERIC')]
         attributes = attributes + [(x, ['True', 'False']) for x in self.features]

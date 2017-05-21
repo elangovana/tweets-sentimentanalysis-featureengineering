@@ -64,11 +64,12 @@ class TextAnalyser:
             yield term
 
 
-    def get_most_common_words(self, data, top_n_most_common):
-        words = self.get_words(data)
+    def get_most_common_words(self, words, top_n_most_common, min_frequency=10):
+
         words = [word.lower() for word in words]
         fdist = nltk.FreqDist(words)
-        return fdist.most_common(top_n_most_common)
+        return [ k for k,v in fdist.most_common(top_n_most_common) if v >= min_frequency]
+
 
 
     @staticmethod
@@ -120,7 +121,7 @@ class TextAnalyser:
         return (ratio)
 
 
-    def _stem_tokens(self,tokens):
+    def Stem_tokens(self, tokens):
         stemmer = nltk.stem.porter.PorterStemmer()
         return [stemmer.stem(item) for item in tokens]
 
@@ -128,7 +129,7 @@ class TextAnalyser:
         remove_punctuation_map = self._get_punctuation_map()
 
 
-        tokens = self._stem_tokens(nltk.word_tokenize(text.lower().translate(remove_punctuation_map)))
+        tokens = self.Stem_tokens(nltk.word_tokenize(text.lower().translate(remove_punctuation_map)))
         return  tokens
 
 

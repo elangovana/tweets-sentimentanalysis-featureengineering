@@ -24,12 +24,17 @@ class BayesianFeature:
 
     def get_features(self, df_tweet, df_label):
         text_analyser=TextAnalyser()
-        self.features =text_analyser.get_most_common_words(reduce(set.union,df_tweet["words"]), 1000, 1)
+        words = list()
+        for l in df_tweet["words"]:
+            words = words + l
+
+        self.features =text_analyser.get_most_common_words(words, 10000, 10)
         #TODO hack remove words used in column names
-        print (self.features)
+
 
         self.features = filter(lambda x: x not in ['tweet','id','words','sentiment'], self.features)
-        print (self.features)
+        self.logger.info("--Features found--" )
+        self.logger.info  (self.features)
 
     def generate_arff(self, df_tweet, df_label, output_file_name):
 

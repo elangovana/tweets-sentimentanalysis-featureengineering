@@ -74,7 +74,7 @@ def GetTweetDataFrame(samplesize, label_file, delimiter, tweet_file, logger):
 
 
     #stem word with chracters ignore words with ascii
-    vget_non_stop_words = np.vectorize(stemwords1, otypes=[set])
+    vget_non_stop_words = np.vectorize(stemwords1, otypes=[list])
 
     df_tweet["words"]=vget_non_stop_words(df_tweet["tweet"])
     print (df_label.columns)
@@ -93,12 +93,12 @@ def stemwords1(sentence):
     words_with_letters_only= [w for w in words if re.match('^[a-zA-Z]+$',w) ]
 
     if len(words_with_letters_only) ==0:
-        return set()
+        return []
     tokens= text_analyser.Stem_tokens(words_with_letters_only)
-    result = set()
-    tmp= [result.add(x) for x in tokens]
-    print result
-    return  result
+    result = set(tokens)
+
+
+    return  [ x for x in result]
 
 
 
@@ -109,7 +109,7 @@ def main(argv):
     dev_tweet_file="../inputdata/dev-tweets.txt"
     dev_label_file="../inputdata/dev-labels.txt"
     outdir="../outputdata/train_{}".format(time.strftime('%Y%m%d_%H%M%S'))
-    samplesize=1000
+    samplesize=0
     try:
         opts, args = getopt.getopt(argv, "ht:l:o:s", ["tweetfile=", "labelfile=","outdir=" ,"samplesize="])
     except getopt.GetoptError:

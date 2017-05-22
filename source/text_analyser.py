@@ -5,6 +5,7 @@ import nltk
 import nltk.stem.snowball
 import nltk.tokenize.punkt
 from nltk.tokenize import WordPunctTokenizer
+from numpy import sort
 
 
 class TextAnalyser:
@@ -67,8 +68,9 @@ class TextAnalyser:
     def get_most_common_words(self, words, top_n_most_common, min_frequency=10):
 
 
-        words = [word.lower() for word in words]
+
         fdist = nltk.FreqDist(words)
+        print ([ (k,v) for k,v in fdist.most_common(top_n_most_common) ])
         return [ k for k,v in fdist.most_common(top_n_most_common) if v >= min_frequency]
 
 

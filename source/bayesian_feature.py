@@ -22,7 +22,7 @@ class BayesianFeature:
 
         self.logger.info("--End of summary--")
 
-    def get_features(self, df_tweet, df_label):
+    def get_features(self, df_tweet, df_label=None):
         text_analyser=TextAnalyser()
         words = list()
         for l in df_tweet["words"]:
@@ -36,7 +36,7 @@ class BayesianFeature:
         self.logger.info("--Features found--" )
         self.logger.info  (self.features)
 
-    def generate_arff(self, df_tweet, df_label, output_file_name):
+    def generate_arff(self, df_tweet, df_label , output_file_name):
 
         #get word presence/against
         self.logger.info("Get word presence / absence against the tweet")

@@ -16,5 +16,5 @@ To get help
 > python main.py -h
 
 To run this script using the command  and use only 100 records from the training data/dev & test set, with output in outdir use
-> python main.py -i  -t ../inputdata/train-tweets.txt  -l ../inputdata/train-labels.txt -d ../inputdata/dev-tweets.txt  -v ../inputdata/dev-labels.txt  -x ../inputdata/test-tweets.txt -o outdir  --samplesize 100
+> python main.py  -t ../inputdata/train-tweets.txt  -l ../inputdata/train-labels.txt -d ../inputdata/dev-tweets.txt  -v ../inputdata/dev-labels.txt  -x ../inputdata/test-tweets.txt -o outdir  --samplesize 100
   

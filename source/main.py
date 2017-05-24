@@ -8,7 +8,7 @@ import time
 
 import re
 
-from bayesian_feature import BayesianFeature
+from topn_word_presence_feature import TopNWordPresenceFeature
 from setup_logger import setup_log
 import pandas as pd
 import  numpy as np
@@ -36,10 +36,10 @@ def run(traindata_tweet_file, traindata_label_file, devdata_tweet_file, devdata_
     feature_engineer.generate_arff(df_devdata_tweet.copy(), df_devdata_label.copy(), "dev.arff")
 
     ##run 2
-    logger.info("----Running bayesiean features-------")
-    resultsdir = os.path.join(output_dir, "Run_bayesiean_{}".format(time.strftime('%Y%m%d_%H%M%S')))
+    logger.info("----Running TopNWordPresenceFeature features-------")
+    resultsdir = os.path.join(output_dir, "Run_TopNWordPresenceFeature_{}".format(time.strftime('%Y%m%d_%H%M%S')))
     os.makedirs(resultsdir)
-    feature_engineer = BayesianFeature(resultsdir, logger)
+    feature_engineer = TopNWordPresenceFeature(resultsdir, logger)
     feature_engineer.get_features(df_traindata_tweet.copy(), df_traindata_label.copy())
     feature_engineer.generate_arff(df_traindata_tweet.copy(), df_traindata_label.copy(), "train.arff")
     feature_engineer.generate_arff(df_devdata_tweet.copy(), df_devdata_label.copy(), "dev.arff")
@@ -126,7 +126,7 @@ def main(argv):
     test_tweet_file = "../inputdata/test-tweets.txt"
 
     outdir="../outputdata/train_{}".format(time.strftime('%Y%m%d_%H%M%S'))
-    samplesize=0
+    samplesize=100
     try:
         opts, args = getopt.getopt(argv, "ht:l:d:v:x:o:s", ["traintweetfile=", "trainlabelfile=","devtweetfile=","devlabelfile=","testtweetfile=","outdir=" ,"samplesize="])
     except getopt.GetoptError:

@@ -11,7 +11,7 @@ from pandas import  np
 from text_analyser import TextAnalyser
 
 
-class BayesianFeature:
+class TopNWordPresenceFeature:
     def __init__(self, output_dir, logger=None):
         self.output_dir = output_dir
         self.logger = logger
